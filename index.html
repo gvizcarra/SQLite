@@ -16,17 +16,25 @@
 
     // Populate the database 
     //
-    function populateDB(tx) {
-        tx.executeSql('DROP TABLE IF EXISTS DEMO');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
-        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
-        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+   function populateDB(tx) 
+   {
+        tx.executeSql('CREATE DATABASE IF NOT EXISTS MisServiciosCfe');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS MisServicios (rpu TEXT,cuenta TEXT,medidor TEXT,tarifa TEXT,direccion TEXT,nombreCliente TEXT)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS MisFacturaciones (idServicio INTEGER,idRpu TEXT,consumoKwh TEXT,importe TEXT,fechaLectura TEXT,lecturaKwh TEXT,lugarPago TEXT,fechaPago TEXT,importePagado TEXT)');
+        
+		tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("016990200185","79DA15A025203160","7416KX","1F","Fernando Amilpa 1848 Infonavit Cucapah 21231","Isabel Paez Castro")');
+		tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("116990200186","89DA15A025203164","8416KY","1F","Calle 1ra, zona Centro 12456","Jose Calderon Castro")');
+		tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("216990200187","99DA15A025203163","9416KZ","1F","Islas Hawaii 250, Fracc. Jardines del Lago","Miguel Stanton")');
+		tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("316990200188","15DA15A025203162","9116KA","1F","Vicente Suarez 598 Col ProHogar 25336","Benito Quiñones Estrada")');
+		tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("416990200189","14DA15A025203171","9216KB","1F","Hermenegildo Galeana 2598, col Prohogar 25336","Perla Gonzalez Rubio")');
+		tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("516990200191","18DA15A025203154","9316KC","1F","Av Morelos 113 col Benito Juarez 21900 ","Jorge Osobampo Lepe")');
+        
     }
 
     // Query the database
     //
     function queryDB(tx) {
-        tx.executeSql('SELECT * FROM DEMO', [], querySuccess, errorCB);
+        tx.executeSql('SELECT * FROM MisServicios', [], querySuccess, errorCB);
     }
 
     // Query the success callback
