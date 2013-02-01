@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Device Properties Example</title>
+    <title>Notification Example</title>
 
     <script type="text/javascript" charset="utf-8" src="cordova-2.2.0.js"></script>
     <script type="text/javascript" charset="utf-8">
@@ -13,33 +13,28 @@
     // Cordova is ready
     //
     function onDeviceReady() {
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        // Empty
     }
 
-    // onSuccess Geolocation
-    //
-    function onSuccess(position) {
-        var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                            'Longitude: '          + position.coords.longitude             + '<br />' +
-                            'Altitude: '           + position.coords.altitude              + '<br />' +
-                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
-                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-                            'Heading: '            + position.coords.heading               + '<br />' +
-                            'Speed: '              + position.coords.speed                 + '<br />' +
-                            'Timestamp: '          +                                   position.timestamp          + '<br />';
+    // alert dialog dismissed
+    function alertDismissed() {
+        // do something
     }
 
-    // onError Callback receives a PositionError object
+    // Show a custom alertDismissed
     //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-                'message: ' + error.message + '\n');
+    function showAlert() {
+        navigator.notification.alert(
+            'You are the winner!',  // message
+            alertDismissed,         // callback
+            'Game Over',            // title
+            'Done'                  // buttonName
+        );
     }
 
     </script>
   </head>
   <body>
-    <p id="geolocation">Finding geolocation...</p>
+    <p><a href="#" onclick="showAlert(); return false;">Show Alert</a></p>
   </body>
 </html>
