@@ -1,9 +1,13 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
   <head>
-    <title>Storage Example</title>
-
-    <script type="text/javascript" charset="utf-8" src="cordova-2.2.0.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>jQuery Mobile Docs - Collapsible lists</title> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="cordova-2.2.0.js"></script>
     <script type="text/javascript" charset="utf-8">
 
     // Wait for Cordova to load
@@ -59,5 +63,164 @@
     }
 
     </script>
-  </head>
-  <body>
+
+
+
+</head> 
+<body> 
+
+	<div data-role="page" class="type-interior" id="mainPage">
+    
+	<div data-role="content">
+	 
+		 
+			<div data-role="collapsible-set" data-theme="b" data-content-theme="d" data-inset="false">
+				 
+				<div data-role="collapsible" id="Negocio123">
+					<h2>Negocio - MiNegocio.com - Blvd. Lazaro Cardenas s/n - Fracc. Residencias</h2>
+					<ul data-role="listview" data-theme="d" data-divider-theme="e">
+                    
+						<li data-role="list-divider">Enero de 2013</li>						
+                        <li>
+                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
+								<h4>RPU:&nbsp; 016990200185 </h4>
+                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
+								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Febrero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;250 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
+                                <p><strong>Importe:&nbsp;</strong> $651.25 Pesos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;###<strong>Fecha de Pago: </strong> 00/00/0000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <h4>Importe Pagado:&nbsp; 00000</h4>
+						</div>
+                        </li>
+                        
+                        <li data-role="list-divider">Diciembre de 2012</li>						
+                        <li>
+                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
+								<h4>RPU:&nbsp; 016990200185 </h4>
+                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
+								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Enero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;350 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
+                                <p><strong>Importe:&nbsp;</strong> $851.25  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Enero de 2013 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <h4>Importe Pagado:&nbsp; $851.25 </h4>
+						</div>
+                        </li>
+                        
+                        <li data-role="list-divider">Noviembre de 2012</li>						
+                        <li>
+                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
+								<h4>RPU:&nbsp; 016990200185 </h4>
+                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
+								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Diciembre de 2012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;218 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
+                                <p><strong>Importe:&nbsp;</strong> $591.00  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Diciembre de 2012 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <h4>Importe Pagado:&nbsp; $591.00 </h4>
+						</div>
+                        </li>
+                        
+                        
+                        <li data-role="list-divider">Noviembre de 2012</li>						
+                        <li>
+                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
+								<h4>RPU:&nbsp; 016990200185 </h4>
+                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
+								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Noviembre de 2012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;118 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
+                                <p><strong>Importe:&nbsp;</strong> $265.00  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Noviembre de 2012 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <h4>Importe Pagado:&nbsp; $265.00 </h4>
+						</div>
+                        </li>
+						
+					</ul>
+				</div>
+                
+                
+                <div data-role="collapsible" id="Casa123">
+					<h2>Casa - Alfredo Rivera Ortiz - Lago de los Osos - Fracc. Jardines del Lago 4321</h2>
+					<ul data-role="listview" data-theme="d" data-divider-theme="a">
+                    						
+                       <li data-role="list-divider">Enero de 2013</li>						
+                        <li>
+                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
+								<h4>RPU:&nbsp; 016990200185 </h4>
+                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
+								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Febrero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;250 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
+                                <p><strong>Importe:&nbsp;</strong> $651.25 Pesos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;###<strong>Fecha de Pago: </strong> 00/00/0000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <h4>Importe Pagado:&nbsp; 00000</h4>
+						</div>
+                        </li>
+                        
+                        <li data-role="list-divider">Diciembre de 2012</li>						
+                        <li>
+                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
+								<h4>RPU:&nbsp; 016990200185 </h4>
+                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
+								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Enero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;350 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
+                                <p><strong>Importe:&nbsp;</strong> $851.25  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Enero de 2013 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <h4>Importe Pagado:&nbsp; $851.25 </h4>
+						</div>
+                        </li>
+                        
+                        <li data-role="list-divider">Noviembre de 2012</li>						
+                        <li>
+                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
+								<h4>RPU:&nbsp; 016990200185 </h4>
+                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
+								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Diciembre de 2012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;218 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
+                                <p><strong>Importe:&nbsp;</strong> $591.00  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Diciembre de 2012 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <h4>Importe Pagado:&nbsp; $591.00 </h4>
+						</div>
+                        </li>
+                        
+                        
+                        <li data-role="list-divider">Noviembre de 2012</li>						
+                        <li>
+                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
+								<h4>RPU:&nbsp; 016990200185 </h4>
+                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
+								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Noviembre de 2012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;118 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
+                                <p><strong>Importe:&nbsp;</strong> $265.00  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Noviembre de 2012 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <h4>Importe Pagado:&nbsp; $265.00 </h4>
+						</div>
+                        </li>
+					</ul>
+				</div>
+				 
+			</div>
+            
+            <a href="#popupInfo" data-rel="popup" data-role="button" data-inline="true">Tooltip</a>
+			<a href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Form</a>        
+        
+		<div data-role="popup" id="popupInfo" class="ui-content" data-theme="e" style="max-width:350px;">
+          <p>Here is a <strong>tiny popup</strong> being used like a tooltip. The text will wrap to multiple lines as needed.</p>
+		</div>
+
+		<div data-role="popup" id="popupMenu" data-theme="a">
+				<ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
+					<li data-role="divider" data-theme="a">Popup API</li>
+					<li><a href="options.html">Options</a></li>
+					<li><a href="methods.html">Methods</a></li>
+					<li><a href="events.html">Events</a></li>
+				</ul>
+		</div>	 
+		
+
+		<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+			<form>
+				<div style="padding:10px 20px;">
+				  <h3>Please sign in</h3>
+		          <label for="un" class="ui-hidden-accessible">Username:</label>
+		          <input type="text" name="user" id="un" value="" placeholder="username" data-theme="a" />
+
+		          <label for="pw" class="ui-hidden-accessible">Password:</label>
+		          <input type="password" name="pass" id="pw" value="" placeholder="password" data-theme="a" />
+
+		    	  <button type="submit" data-theme="b">Sign in</button>
+				</div>
+			</form>
+		</div>
+		
+		 
+
+	</div><!-- /content -->
+
+	 
+
+	</div><!-- /page -->
+
+	</body>
+	</html>
