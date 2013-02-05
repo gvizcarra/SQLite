@@ -63,8 +63,8 @@
     // Cordova is ready
     //
     function onDeviceReady() {
-        var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
-        db.transaction(populateDB, errorCB, successCB);
+        //var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
+       // db.transaction(populateDB, errorCB, successCB);
     }
 
     </script>
@@ -78,8 +78,10 @@
     
 	<div data-role="content">
 	 
-		 
+		 <div><a href="#" onClick="alert('jaja')">click</a></div>
+         
 			<div data-role="collapsible-set" data-theme="b" data-content-theme="d" data-inset="false">
+             
 				 
 				<div data-role="collapsible" id="Negocio123">
 					<h2>Negocio - MiNegocio.com - Blvd. Lazaro Cardenas s/n - Fracc. Residencias</h2>
