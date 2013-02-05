@@ -69,8 +69,29 @@
 	
 	function ValidaServicio()
 	{
-		//$("#validaServicio").click(function(){
-			alert('que onda!');
+		var rpu = $("#rpu").val();
+		var cuenta = $("#cuenta").val();
+		var dats = null;
+		
+		dats = '<div data-role="collapsible" id="Negocio"'+cuenta+'>';
+		dats += '<h2>Negocio - MiNegocio.com - Blvd. Lazaro Cardenas s/n - Fracc. Residencias</h2>';
+		dats += '<ul data-role="listview" data-theme="d" data-divider-theme="e">';
+                    
+		dats += '<li data-role="list-divider">Enero de 2013</li>';
+		dats += '<li>';
+		dats += '<div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">';
+		dats += '<h4>RPU:&nbsp; '+rpu+' </h4>';
+		dats += '<h4>Cuenta:&nbsp; '+cuenta+' </h4>';
+		dats += '<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Febrero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;250 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>';
+		dats += '<p><strong>Importe:&nbsp;</strong> $651.25 Pesos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;###<strong>Fecha de Pago: </strong> 00/00/0000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>';
+		dats += '<h4>Importe Pagado:&nbsp; 00000</h4>';
+		dats += '</div>';
+		dats += '</li>';
+		dats += '</ul>';
+		dats += '</div>';
+		
+		$("#ContenedorPrincipal").append(dats);
+			//alert('que onda!');
 			
  
        // var formData = $("#newPostForm").serialize();
@@ -99,7 +120,7 @@
 	 
 		 <div><a href="#" onClick="alert('jaja')">click</a></div>
          
-			<div data-role="collapsible-set" data-theme="b" data-content-theme="d" data-inset="false">
+			<div id="ContenedorPrincipal" data-role="collapsible-set" data-theme="b" data-content-theme="d" data-inset="false">
              
 				 
 				<div data-role="collapsible" id="Negocio123">
