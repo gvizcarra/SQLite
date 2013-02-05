@@ -66,6 +66,25 @@
         //var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
        // db.transaction(populateDB, errorCB, successCB);
     }
+	
+	//function validarServicio()
+	//{
+		$("#validaServicio").click(function(){
+			alert('que onda!');
+			
+ 
+       // var formData = $("#newPostForm").serialize();
+ 
+       /* $.ajax({
+            type: "POST",
+            url: "/mobile/newpost.php",
+            cache: false,
+            data: formData,
+            success: onSuccess
+        }); */
+		
+		});
+	//}
 
     </script>
 
@@ -209,14 +228,14 @@
 		<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
 			<form>
 				<div style="padding:10px 20px;">
-				  <h3>Please sign in</h3>
-		          <label for="un" class="ui-hidden-accessible">Username:</label>
-		          <input type="text" name="user" id="un" value="" placeholder="username" data-theme="a" />
+				  <h3>Alta de Servicios</h3>
+		          <label for="rpu" class="ui-hidden-accessible">Captura RPU:</label>
+		          <input type="text" name="rpu" id="rpu" value="" placeholder="username" data-theme="a" />
 
-		          <label for="pw" class="ui-hidden-accessible">Password:</label>
-		          <input type="password" name="pass" id="pw" value="" placeholder="password" data-theme="a" />
+		          <label for="cuenta" class="ui-hidden-accessible">Captura Password:</label>
+		          <input type="text" name="cuenta" id="cuenta" value="" placeholder="password" data-theme="a" />
 
-		    	  <button type="submit" data-theme="b">Sign in</button>
+		    	  <button type="button" data-theme="b" id="validaServicio" name="validaServicio">Validar</button>
 				</div>
 			</form>
 		</div>
