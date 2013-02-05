@@ -71,15 +71,16 @@
 	{
 		var rpu = $("#rpu").val();
 		var cuenta = $("#cuenta").val();
-		var dats = null;
+		var dats = "";
+
 		
-		dats = '<div data-role="collapsible" id="Negocio"'+cuenta+'>';
+		dats = '<div data-role="collapsible" id="Servicio">';
 		dats += '<h2>Negocio - MiNegocio.com - Blvd. Lazaro Cardenas s/n - Fracc. Residencias</h2>';
-		dats += '<ul data-role="listview" data-theme="d" data-divider-theme="e">';
+		dats += '<ul id="gv22" data-role="listview" data-theme="d" data-divider-theme="e">';
                     
-		dats += '<li data-role="list-divider">Enero de 2013</li>';
+		dats += '<li id="listMes" data-role="list-divider" id="Mes2">Enero de 2013</li>';
 		dats += '<li>';
-		dats += '<div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">';
+		dats += '<div id="mescontent" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">';
 		dats += '<h4>RPU:&nbsp; '+rpu+' </h4>';
 		dats += '<h4>Cuenta:&nbsp; '+cuenta+' </h4>';
 		dats += '<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Febrero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;250 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>';
@@ -90,8 +91,8 @@
 		dats += '</ul>';
 		dats += '</div>';
 		
-		$("#ContenedorPrincipal").append(dats);
-			//alert('que onda!');
+		$("#ContenedorPrincipal").append(dats).collapsibleset().trigger("create");
+ 
 			
  
        // var formData = $("#newPostForm").serialize();
@@ -116,7 +117,7 @@
 
 	<div data-role="page" class="type-interior" id="mainPage">
     
-	<div data-role="content">
+	<div id="contenidox" data-role="content">
 	 
 		 <div><a href="#" onClick="alert('jaja')">click</a></div>
          
