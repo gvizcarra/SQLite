@@ -67,9 +67,9 @@
        // db.transaction(populateDB, errorCB, successCB);
     }
 	
-	//function validarServicio()
-	//{
-		$("#validaServicio").click(function(){
+	function ValidaServicio()
+	{
+		//$("#validaServicio").click(function(){
 			alert('que onda!');
 			
  
@@ -83,8 +83,8 @@
             success: onSuccess
         }); */
 		
-		});
-	//}
+		//});
+	 }
 
     </script>
 
@@ -230,12 +230,12 @@
 				<div style="padding:10px 20px;">
 				  <h3>Alta de Servicios</h3>
 		          <label for="rpu" class="ui-hidden-accessible">Captura RPU:</label>
-		          <input type="text" name="rpu" id="rpu" value="" placeholder="username" data-theme="a" />
+		          <input type="text" name="rpu" id="rpu" value="" placeholder="RPU" data-theme="a" />
 
 		          <label for="cuenta" class="ui-hidden-accessible">Captura Password:</label>
-		          <input type="text" name="cuenta" id="cuenta" value="" placeholder="password" data-theme="a" />
+		          <input type="text" name="cuenta" id="cuenta" value="" placeholder="Cuenta" data-theme="a" />
 
-		    	  <button type="button" data-theme="b" id="validaServicio" name="validaServicio">Validar</button>
+		    	  <button type="button" data-theme="b" id="validaServicio" name="validaServicio" onClick="ValidaServicio()">Validar</button>
 				</div>
 			</form>
 		</div>
