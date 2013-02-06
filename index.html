@@ -9,7 +9,8 @@
 <script src="jquery.mobile-1.2.0.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="cordova-2.2.0.js"></script>
     <script type="text/javascript" charset="utf-8">
-
+	
+	
     // Wait for Cordova to load
     //
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -69,44 +70,131 @@
 	
 	function ValidaServicio()
 	{
+		var mesServicio = [];
+		mesServicio[0] = "";
+		mesServicio[1] = " Enero";
+		mesServicio[2] = " Febrero";
+		mesServicio[3] = " Marzo";
+		mesServicio[4] = " Abril";
+		mesServicio[5] = " Mayo";
+		mesServicio[6] = " Junio";
+		mesServicio[7] = " Julio";
+		mesServicio[8] = " Agosto";
+		mesServicio[9] = " Septiembre";
+		mesServicio[10] = " Octubre";
+		mesServicio[11] = " Noviembre";
+		mesServicio[12] = " Diciembre";
+	
 		var rpu = $("#rpu").val();
 		var cuenta = $("#cuenta").val();
-		var dats = "";
+		var htmlMain = "",htmlMes = "";
+		var direccionServicio = "",rpuServicio = rpu,cuentaServicio = "",medidorServicio= "",tarifaServicio = "";
+		var consumoServicio = "",fechaLecturaServicio = "",nombreServicio="",coloniaServicio="";		
+		
+		var importeServicio 		 = new Array();
+		var fechaFacturacionServicio = new Array();
+		var desdeFechaServicio		 = new Array();
+		var hastaFechaServicio		 = new Array();
+		var lugarPagoServicio		 = new Array();
+		var fechaPagoServicio		 = new Array();
+		var fechaLimitePagoServicio  = new Array();
+		var kwhServicio				 = new Array();
+		
+		
+		
+		
+		
+
+
+       $.ajax({
+               type: "GET",
+               url: "http://soporte.da0.cfemex.com/appmovil.php?rpu="+rpu,
+               dataType: "xml",
+               success: parseXml
+               });
+			   
+			   
+			   function parseXml(xml) 
+			   {
+					$(xml).find('catal2').each(function()
+					{
+						direccionServicio 	= $(this).find("direccion").text();
+						coloniaServicio 	= $(this).find("colonia").text();
+						nombreServicio 		= $(this).find("nombre").text();
+						tarifaServicio 		= $(this).find("tarifa").text();				   
+						
+					 });
+				 
+				 //$("#ContenedorPrincipal").append('<li><h3>' + direccionServicio + '</h3></li>'); 
+				 
+						$(xml).find('catal5').each(function(){
+							cuentaServicio 	= $(this).find("numcta").text();					
+						 });
+						  
+						 
+						 $(xml).find('catal3').each(function(){
+							medidorServicio 	= $(this).find("numed").text();					
+						 });
+						 
+						  
+						 $(xml).find('catal4').each(function()
+						 {
+							 $(this).find("facturacion").each(function()
+							{
+								fechaFacturacionServicio.push($(this).find("fecha_ade").text());
+								importeServicio.push($(this).find("total").text());
+								desdeFechaServicio.push($(this).find("fecha_desde").text());
+								hastaFechaServicio.push($(this).find("fecha_hasta").text());
+								lugarPagoServicio.push($(this).find("lugar_4b").text());
+								fechaPagoServicio.push($(this).find("fecha_4b").text());
+								fechaLimitePagoServicio.push($(this).find("fecha_operacion").text());
+								kwhServicio.push($(this).find("kwh").text());
+								
+							 }); // facturacion
+							
+												
+						 });  // catal4
+						 
+						//alert(medidorServicio);					
+						  
+						 for(var i=0;i<importeServicio.length;i++)
+						 {
+							  // alert(lugarPagoServicio[i]);
+								
+								 
+								htmlMes += '<ul id="gv22" data-role="listview" data-theme="d" data-divider-theme="e">';
+											
+								htmlMes += '<li id="listMes" data-role="list-divider" id="Mes2">'+ mesServicio[parseInt(fechaFacturacionServicio[i].substr(4,2))] +' - '+fechaFacturacionServicio[i].substr(0,4)+'</li>';
+								htmlMes += '<li>';
+								htmlMes += '<div id="mescontent" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">';
+								htmlMes += '<h4>RPU:&nbsp; '+rpu+'  </h4>';
+								htmlMes += '<h4>Cuenta:&nbsp; '+cuentaServicio+' </h4>';
+								htmlMes += '<p><strong>Fecha Vencimiento:</strong>&nbsp;'+fechaLimitePagoServicio[i]+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;'+parseInt(kwhServicio[i])+' Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>'+medidorServicio+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>'+tarifaServicio+'</p>';
+								htmlMes += '<p><strong>Importe:&nbsp;</strong> $'+importeServicio[i]+' Pesos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;'+lugarPagoServicio[i]+'<strong>Fecha de Pago: </strong> '+fechaPagoServicio[i]+' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>';
+								
+								if(fechaPagoServicio[i]!="")
+								 { htmlMes += '<h4>Importe Pagado:&nbsp; $'+importeServicio[i]+'</h4>'; }
+								 else
+								 { htmlMes += '<h4>Importe Pagado:&nbsp; 00000</h4>'; }
+								 
+								htmlMes += '</div>';
+								htmlMes += '</li>';
+								htmlMes += '</ul>';  
+							  
+							 
+							 }
+						 
+							htmlMain = '<div data-role="collapsible" id="Servicio"'+rpu+'>';
+							htmlMain += '<h2>'+ nombreServicio +'</h2>';
+							htmlMain += htmlMes;
+							htmlMain += '</div>';
+				
+							$("#ContenedorPrincipal").append(htmlMain).collapsibleset().trigger("create");   
+					}
 
 		
-		dats = '<div data-role="collapsible" id="Servicio">';
-		dats += '<h2>'+rpu+' - '+cuenta+'</h2>';
-		dats += '<ul id="gv22" data-role="listview" data-theme="d" data-divider-theme="e">';
-                    
-		dats += '<li id="listMes" data-role="list-divider" id="Mes2">Enero de 2013</li>';
-		dats += '<li>';
-		dats += '<div id="mescontent" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">';
-		dats += '<h4>RPU:&nbsp; '+rpu+' </h4>';
-		dats += '<h4>Cuenta:&nbsp; '+cuenta+' </h4>';
-		dats += '<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Febrero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;250 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>';
-		dats += '<p><strong>Importe:&nbsp;</strong> $651.25 Pesos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;###<strong>Fecha de Pago: </strong> 00/00/0000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>';
-		dats += '<h4>Importe Pagado:&nbsp; 00000</h4>';
-		dats += '</div>';
-		dats += '</li>';
-		dats += '</ul>';
-		dats += '</div>';
-		
-		$("#ContenedorPrincipal").append(dats).collapsibleset().trigger("create");
  
-			
- 
-       // var formData = $("#newPostForm").serialize();
- 
-       /* $.ajax({
-            type: "POST",
-            url: "/mobile/newpost.php",
-            cache: false,
-            data: formData,
-            success: onSuccess
-        }); */
-		
-		//});
-	 }
+	   }
 
     </script>
 
@@ -122,112 +210,6 @@
 		<a href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Agregar Servicio</a>
          
 			<div id="ContenedorPrincipal" data-role="collapsible-set" data-theme="b" data-content-theme="d" data-inset="false">
-             
-				 
-				<div data-role="collapsible" id="Negocio123">
-					<h2>Negocio - MiNegocio.com - Blvd. Lazaro Cardenas s/n - Fracc. Residencias</h2>
-					<ul data-role="listview" data-theme="d" data-divider-theme="e">
-                    
-						<li data-role="list-divider">Enero de 2013</li>						
-                        <li>
-                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
-								<h4>RPU:&nbsp; 016990200185 </h4>
-                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
-								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Febrero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;250 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
-                                <p><strong>Importe:&nbsp;</strong> $651.25 Pesos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;###<strong>Fecha de Pago: </strong> 00/00/0000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                                <h4>Importe Pagado:&nbsp; 00000</h4>
-						</div>
-                        </li>
-                        
-                        <li data-role="list-divider">Diciembre de 2012</li>						
-                        <li>
-                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
-								<h4>RPU:&nbsp; 016990200185 </h4>
-                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
-								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Enero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;350 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
-                                <p><strong>Importe:&nbsp;</strong> $851.25  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Enero de 2013 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                                <h4>Importe Pagado:&nbsp; $851.25 </h4>
-						</div>
-                        </li>
-                        
-                        <li data-role="list-divider">Noviembre de 2012</li>						
-                        <li>
-                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
-								<h4>RPU:&nbsp; 016990200185 </h4>
-                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
-								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Diciembre de 2012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;218 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
-                                <p><strong>Importe:&nbsp;</strong> $591.00  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Diciembre de 2012 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                                <h4>Importe Pagado:&nbsp; $591.00 </h4>
-						</div>
-                        </li>
-                        
-                        
-                        <li data-role="list-divider">Noviembre de 2012</li>						
-                        <li>
-                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
-								<h4>RPU:&nbsp; 016990200185 </h4>
-                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
-								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Noviembre de 2012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;118 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
-                                <p><strong>Importe:&nbsp;</strong> $265.00  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Noviembre de 2012 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                                <h4>Importe Pagado:&nbsp; $265.00 </h4>
-						</div>
-                        </li>
-						
-					</ul>
-				</div>
-                
-                
-                <div data-role="collapsible" id="Casa123">
-					<h2>Casa - Alfredo Rivera Ortiz - Lago de los Osos - Fracc. Jardines del Lago 4321</h2>
-					<ul data-role="listview" data-theme="d" data-divider-theme="a">
-                    						
-                       <li data-role="list-divider">Enero de 2013</li>						
-                        <li>
-                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
-								<h4>RPU:&nbsp; 016990200185 </h4>
-                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
-								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Febrero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;250 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
-                                <p><strong>Importe:&nbsp;</strong> $651.25 Pesos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;###<strong>Fecha de Pago: </strong> 00/00/0000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                                <h4>Importe Pagado:&nbsp; 00000</h4>
-						</div>
-                        </li>
-                        
-                        <li data-role="list-divider">Diciembre de 2012</li>						
-                        <li>
-                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
-								<h4>RPU:&nbsp; 016990200185 </h4>
-                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
-								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Enero de 2013&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;350 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
-                                <p><strong>Importe:&nbsp;</strong> $851.25  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Enero de 2013 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                                <h4>Importe Pagado:&nbsp; $851.25 </h4>
-						</div>
-                        </li>
-                        
-                        <li data-role="list-divider">Noviembre de 2012</li>						
-                        <li>
-                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
-								<h4>RPU:&nbsp; 016990200185 </h4>
-                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
-								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Diciembre de 2012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;218 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
-                                <p><strong>Importe:&nbsp;</strong> $591.00  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Diciembre de 2012 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                                <h4>Importe Pagado:&nbsp; $591.00 </h4>
-						</div>
-                        </li>
-                        
-                        
-                        <li data-role="list-divider">Noviembre de 2012</li>						
-                        <li>
-                        <div class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">
-								<h4>RPU:&nbsp; 016990200185 </h4>
-                                <h4>Cuenta:&nbsp; 69DA15A025203160 </h4>
-								<p><strong>Fecha Vencimiento:</strong>&nbsp;15 de Noviembre de 2012&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;118 Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>8416KY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>1F</p>
-                                <p><strong>Importe:&nbsp;</strong> $265.00  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;CFEMatico Oriente<strong>Fecha de Pago: </strong> 12 de Noviembre de 2012 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                                <h4>Importe Pagado:&nbsp; $265.00 </h4>
-						</div>
-                        </li>
-					</ul>
-				</div>
-				 
 			</div>
             
             <a href="#popupInfo" data-rel="popup" data-role="button" data-inline="true">Tooltip</a>
@@ -252,12 +234,13 @@
 				<div style="padding:10px 20px;">
 				  <h3>Alta de Servicios</h3>
 		          <label for="rpu" class="ui-hidden-accessible">Captura RPU:</label>
-		          <input type="text" name="rpu" id="rpu" value="" placeholder="RPU" data-theme="a" />
+		          <input type="text" name="rpu" id="rpu" value="016990200185" placeholder="RPU" data-theme="a" />
 
 		          <label for="cuenta" class="ui-hidden-accessible">Captura Password:</label>
-		          <input type="text" name="cuenta" id="cuenta" value="" placeholder="Cuenta" data-theme="a" />
+		          <input type="text" name="cuenta" id="cuenta" value="016990200185" placeholder="Cuenta" data-theme="a" />
 
 		    	  <button type="button" data-theme="b" id="validaServicio" name="validaServicio" onClick="ValidaServicio()">Validar</button>
+                  <label id="msgError" class="ui-li-count"></label>
 				</div>
 			</form>
 		</div>
