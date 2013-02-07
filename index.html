@@ -10,17 +10,30 @@
 <script type="text/javascript" charset="utf-8" src="cordova-2.2.0.js"></script>
     <script type="text/javascript" charset="utf-8">
 	
-	
+	var mesServicio = [];
+		mesServicio[0] = "";
+		mesServicio[1] = " Enero";
+		mesServicio[2] = " Febrero";
+		mesServicio[3] = " Marzo";
+		mesServicio[4] = " Abril";
+		mesServicio[5] = " Mayo";
+		mesServicio[6] = " Junio";
+		mesServicio[7] = " Julio";
+		mesServicio[8] = " Agosto";
+		mesServicio[9] = " Septiembre";
+		mesServicio[10] = " Octubre";
+		mesServicio[11] = " Noviembre";
+		mesServicio[12] = " Diciembre";
     // Wait for Cordova to load
     //
     document.addEventListener("deviceready", onDeviceReady, false);
 
-	 $( document ).bind( 'mobileinit', function(){
+	/*$( document ).bind( 'mobileinit', function(){
   $.mobile.loader.prototype.options.text = "loading";
   $.mobile.loader.prototype.options.textVisible = false;
   $.mobile.loader.prototype.options.theme = "a";
   $.mobile.loader.prototype.options.html = "";
-}); 
+});*/
 
 
 
@@ -53,10 +66,9 @@
     function querySuccess(tx, results) {
         var len = results.rows.length;
         alert("DEMO table: " + len + " rows found.");
-       // for (var i=0; i<len; i++)
-       //{
-          //  alert("Row = " + i + " ID = " + results.rows.item(i).rpu + " Data =  " + results.rows.item(i).nombreCliente);
-        //}
+        for (var i=0; i<len; i++){
+            alert("Row = " + i + " ID = " + results.rows.item(i).rpu + " Data =  " + results.rows.item(i).nombreCliente);
+        }
     }
 
     // Transaction error callback
@@ -75,19 +87,34 @@
     // Cordova is ready
     //
     function onDeviceReady() {
-        var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
-       db.transaction(populateDB, errorCB, successCB);
+        //var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
+       // db.transaction(populateDB, errorCB, successCB);
     }
+	function formateaFecha(laFecha)
+	{
+		var fechaFormateada = "";
+		laFecha = laFecha.trim();
+		
+		
+		
+		 if(laFecha!="")
+		 { fechaFormateada = laFecha.substr(6,2)+' de '+ mesServicio[parseInt(laFecha.substr(4,2))] +' de '+laFecha.substr(0,4); }
+		 else
+		 {fechaFormateada = laFecha;}	 	  
+		
+		return fechaFormateada;
+	}
 	
 	function ValidaServicio()
 	{
 		//$('div#popupLogin input[type=button]').button('disable');
 		$("#validaServicio").button('disable');
 		
-		var rpu = $("#rpu").val();
+		var rpu    = $("#rpu").val();
 		var cuenta = $("#cuenta").val();
+		var alias  = $("#alias").val();
 		
-		var mesServicio = [];
+		/*var mesServicio = [];
 		mesServicio[0] = "";
 		mesServicio[1] = " Enero";
 		mesServicio[2] = " Febrero";
@@ -100,7 +127,7 @@
 		mesServicio[9] = " Septiembre";
 		mesServicio[10] = " Octubre";
 		mesServicio[11] = " Noviembre";
-		mesServicio[12] = " Diciembre";
+		mesServicio[12] = " Diciembre"; */
 				
 		var htmlMain = "",htmlMes = "";
 		var direccionServicio = "",rpuServicio = "",cuentaServicio = "",medidorServicio= "",tarifaServicio = "";
@@ -128,8 +155,8 @@
 			   {
 					$(xml).find('catal2').each(function()
 					{
-						direccionServicio 	= $(this).find("direccion").text();
 						coloniaServicio 	= $(this).find("colonia").text();
+						direccionServicio 	= $(this).find("direccion").text() + '   Colonia: '+ coloniaServicio;
 						nombreServicio 		= $(this).find("nombre").text();
 						tarifaServicio 		= $(this).find("tarifa").text();
 						rpuServicio			= $(this).find("rpu").text();
@@ -157,11 +184,11 @@
 							 $(this).find("facturacion").each(function()
 							{
 								fechaFacturacionServicio.push($(this).find("fecha_ade").text());
-								importeServicio.push($(this).find("total").text());
+								importeServicio.push($(this).find("total").text().trim());
 								desdeFechaServicio.push($(this).find("fecha_desde").text());
 								hastaFechaServicio.push($(this).find("fecha_hasta").text());
 								lugarPagoServicio.push($(this).find("lugar_4b").text());
-								fechaPagoServicio.push($(this).find("fecha_4b").text());
+								fechaPagoServicio.push($(this).find("fecha_4b").text().trim());
 								fechaLimitePagoServicio.push($(this).find("fecha_operacion").text());
 								kwhServicio.push($(this).find("kwh").text());
 								
@@ -181,16 +208,21 @@
 												
 									htmlMes += '<li id="listMes" data-role="list-divider" id="Mes2">'+ mesServicio[parseInt(fechaFacturacionServicio[i].substr(4,2))] +' - '+fechaFacturacionServicio[i].substr(0,4)+'</li>';
 									htmlMes += '<li>';
-									htmlMes += '<div id="mescontent" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">';
-									htmlMes += '<h4>RPU:&nbsp; '+rpu+'  </h4>';
-									htmlMes += '<h4>Cuenta:&nbsp; '+cuentaServicio+' </h4>';
-									htmlMes += '<p><strong>Fecha Vencimiento:</strong>&nbsp;'+fechaLimitePagoServicio[i]+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;'+parseInt(kwhServicio[i])+' Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>'+medidorServicio+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>'+tarifaServicio+'</p>';
-									htmlMes += '<p><strong>Importe:&nbsp;</strong> $'+importeServicio[i]+' Pesos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;'+lugarPagoServicio[i]+'<strong>Fecha de Pago: </strong> '+fechaPagoServicio[i]+' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>';
+									htmlMes += '<div id="mescontent" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false"  data-mini="true">';									
+									htmlMes += '<p><strong>Consumo:</strong>&nbsp;'+parseInt(kwhServicio[i])+' Kwh</p>';
+									htmlMes += '<p><strong>Importe:</strong>&nbsp;$'+importeServicio[i]+' Pesos</p>';
+									htmlMes += '<p><strong>Fecha Vencimiento:</strong>&nbsp;<u>'+formateaFecha(fechaLimitePagoServicio[i])+'</u></p>';
+																		
+									
 									
 									if(fechaPagoServicio[i]!="")
-									 { htmlMes += '<h4>Importe Pagado:&nbsp; $'+importeServicio[i]+'</h4>'; }
+									 { 
+										 htmlMes += '<p><strong>Fecha de Pago: </strong>&nbsp;<u>'+formateaFecha(fechaPagoServicio[i])+'</u></p>';
+										 htmlMes += '<p><strong>Lugar de Pago:</strong>&nbsp;<u>'+lugarPagoServicio[i]+'</u></p>';
+										 htmlMes += '<h4>Importe Pagado:&nbsp;<u> $'+importeServicio[i]+'</u></h4>'; 
+									 }
 									 else
-									 { htmlMes += '<h4>Importe Pagado:&nbsp; 00000</h4>'; }
+									 { htmlMes += '<h4>Importe Pagado:&nbsp; #####</h4>'; }
 									 
 									htmlMes += '</div>';
 									htmlMes += '</li>';
@@ -202,20 +234,23 @@
 							htmlMain = '<div data-role="collapsible" id="Servicio"'+rpu+' data-mini="true">';
 							//htmlMain +='<button class="show-page-loading-msg" data-theme="b" data-textonly="false" data-textvisible="true" data-msgtext="Loading theme b" data-icon="arrow-r" data-iconpos="right">'+nombreServicio+'</button>';
 
-							htmlMain += '<h2>'+ nombreServicio +'</h2>';
-							htmlMain += '<div data-role="collapsible" data-theme="b" data-content-theme="b">';
+							htmlMain += '<h2>'+ alias +' - '+ nombreServicio +'</h2>';
+							htmlMain += '<div data-role="collapsible" data-theme="b" data-content-theme="b"  data-mini="true">';
 							htmlMain += '<h2>Datos Generales del Servicio</h2>';
-							htmlMain += '<div id="mescontent" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">';
-							//htmlMain += '<ul id="gv22" data-role="listview" data-theme="c" data-divider-theme="c" data-mini="true">';
-							//htmlMain += '<li id="listMes" data-role="list-divider" id="Mes2">';
-							htmlMain += '<h4>Cuenta:&nbsp; '+cuentaServicio+' </h4>';
-							//htmlMain += '</li>';						
-							//htmlMain += '</ul>';
+							htmlMain += '<div id="datosGenerales" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false"  data-mini="true">';
+							htmlMain += '<p><strong>RPU:</strong>&nbsp; '+rpu+'</p>';
+							htmlMain += '<p><strong>Cuenta:</strong>&nbsp; '+cuentaServicio+'</p>';
+							htmlMain += '<p><strong>Medidor:</strong>&nbsp; '+medidorServicio+'<strong>&nbsp;&nbsp;&nbsp;Tarifa:</strong>&nbsp; '+tarifaServicio+'</p>';
+							htmlMain += '<p><strong>Domicilio:</strong>&nbsp; '+direccionServicio+'</p>';	
 							htmlMain += '</div>';
-							htmlMain += '<h4>Cuenta:&nbsp;</h4>';
+							 
 							htmlMain += '</div>';
 							
+							
+							htmlMain += '<div data-role="collapsible" id="Historial"'+rpu+' data-mini="true">';
+							htmlMain += '<h2>Facturacion</h2>';
 							htmlMain += htmlMes;
+							htmlMain += '</div>';
 							htmlMain += '</div>';
 							
 							 $("#msgError").text("");
@@ -253,7 +288,7 @@
 			<div id="ContenedorPrincipal" data-role="collapsible-set" data-theme="b" data-content-theme="d" data-inset="false" data-mini="true">
 			</div>
 
-		<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+		<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all"  data-mini="true">
 			<form>
 				<div style="padding:10px 20px;">
 				  <h3>Alta de Servicios</h3>
@@ -262,6 +297,9 @@
 
 		          <label for="cuenta" class="ui-hidden-accessible">Captura Cuenta:</label>
 		          <input type="text" name="cuenta" id="cuenta" value="69DA15A025203160" placeholder="Cuenta" data-theme="a" />
+                  
+                  <label for="alias" class="ui-hidden-accessible">Captura alias:</label>
+		          <input type="text" name="alias" id="alias" value="" placeholder="Alias: Ej. Mi Casa" data-theme="a" />
 
 		    	  <button type="button" data-theme="b" id="validaServicio" name="validaServicio" onClick="ValidaServicio()">Validar</button>
                   <label id="msgError" class="ui-li-count"></label>
@@ -270,7 +308,7 @@
 		</div>
 		
         
-        <div data-role="popup" id="popupConsumoAlDia" data-theme="a" class="ui-corner-all">
+        <div data-role="popup" id="popupConsumoAlDia" data-theme="a" class="ui-corner-all"  data-mini="true">
 			<form>
 				<div style="padding:10px 20px;">
 				  <h3>Calculo de Consumo al Dia</h3>
