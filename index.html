@@ -24,6 +24,27 @@
 		mesServicio[10] = " Octubre";
 		mesServicio[11] = " Noviembre";
 		mesServicio[12] = " Diciembre";
+		
+		// variables de inicio
+		var rpu    = $("#rpu").val();
+		var cuenta = $("#cuenta").val();
+		var alias  = $("#alias").val();
+		
+		// variables de datos generales
+		var htmlMain = "",htmlMes = "";
+		var direccionServicio = "",rpuServicio = "",cuentaServicio = "",medidorServicio= "",tarifaServicio = "";
+		var consumoServicio = "",fechaLecturaServicio = "",nombreServicio="",coloniaServicio="";		
+		
+		var importeServicio 		 = new Array();
+		var fechaFacturacionServicio = new Array();
+		var desdeFechaServicio		 = new Array();
+		var hastaFechaServicio		 = new Array();
+		var lugarPagoServicio		 = new Array();
+		var fechaPagoServicio		 = new Array();
+		var fechaLimitePagoServicio  = new Array();
+		var kwhServicio				 = new Array();  
+		
+		
     // Wait for Cordova to load
     //
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -46,12 +67,11 @@
         tx.executeSql('CREATE TABLE IF NOT EXISTS MisServicios (rpu TEXT,cuenta TEXT,medidor TEXT,tarifa TEXT,direccion TEXT,nombreCliente TEXT)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS MisFacturaciones (idServicio INTEGER,idRpu TEXT,consumoKwh TEXT,importe TEXT,fechaLectura TEXT,lecturaKwh TEXT,lugarPago TEXT,fechaPago TEXT,importePagado TEXT)');
         
-	tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("016990200185","79DA15A025203160","7416KX","1F","Fernando Amilpa 1848 Infonavit Cucapah 21231","Isabel Paez Castro")');
-	tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("116990200186","89DA15A025203164","8416KY","1F","Calle 1ra, zona Centro 12456","Jose Calderon Castro")');
-	tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("216990200187","99DA15A025203163","9416KZ","1F","Islas Hawaii 250, Fracc. Jardines del Lago","Miguel Stanton")');
-	tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("316990200188","15DA15A025203162","9116KA","1F","Vicente Suarez 598 Col ProHogar 25336","Benito Quiñones Estrada")');
-	tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("416990200189","14DA15A025203171","9216KB","1F","Hermenegildo Galeana 2598, col Prohogar 25336","Perla Gonzalez Rubio")');
-	tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("516990200191","18DA15A025203154","9316KC","1F","Av Morelos 113 col Benito Juarez 21900 ","Jorge Osobampo Lepe")');
+	tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("'+rpuServicio+'","'+cuentaServicio+'","'+medidorServicio+'","'+tarifaServicio+'","'+direccionServicio+'","'+nombreServicio+'")');
+	
+	// ciclo
+	tx.executeSql('INSERT INTO MisServicios (rpu ,cuenta ,medidor ,tarifa,direccion ,nombreCliente) VALUES ("'+rpuServicio+'","'+cuentaServicio+'","'+medidorServicio+'","'+tarifaServicio+'","'+direccionServicio+'","'+nombreServicio+'")');
+	
         
     }
 
@@ -86,7 +106,8 @@
 
     // Cordova is ready
     //
-    function onDeviceReady() {
+    function onDeviceReady()
+	{
         //var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
        // db.transaction(populateDB, errorCB, successCB);
     }
@@ -110,37 +131,25 @@
 		//$('div#popupLogin input[type=button]').button('disable');
 		$("#validaServicio").button('disable');
 		
-		var rpu    = $("#rpu").val();
-		var cuenta = $("#cuenta").val();
-		var alias  = $("#alias").val();
+		rpu    = $("#rpu").val();
+		cuenta = $("#cuenta").val();
+		alias  = $("#alias").val();
+		/*// variables reset
+		htmlMain = "",htmlMes = "";
+		direccionServicio = "",rpuServicio = "",cuentaServicio = "",medidorServicio= "",tarifaServicio = "";
+		consumoServicio = "",fechaLecturaServicio = "",nombreServicio="",coloniaServicio="";		
 		
-		/*var mesServicio = [];
-		mesServicio[0] = "";
-		mesServicio[1] = " Enero";
-		mesServicio[2] = " Febrero";
-		mesServicio[3] = " Marzo";
-		mesServicio[4] = " Abril";
-		mesServicio[5] = " Mayo";
-		mesServicio[6] = " Junio";
-		mesServicio[7] = " Julio";
-		mesServicio[8] = " Agosto";
-		mesServicio[9] = " Septiembre";
-		mesServicio[10] = " Octubre";
-		mesServicio[11] = " Noviembre";
-		mesServicio[12] = " Diciembre"; */
+		// arreglos reset
+		importeServicio 		 = new Array();
+		fechaFacturacionServicio = new Array();
+		desdeFechaServicio		 = new Array();
+		hastaFechaServicio		 = new Array();
+		lugarPagoServicio		 = new Array();
+		fechaPagoServicio		 = new Array();
+		fechaLimitePagoServicio  = new Array();
+		kwhServicio				 = new Array();*/
 				
-		var htmlMain = "",htmlMes = "";
-		var direccionServicio = "",rpuServicio = "",cuentaServicio = "",medidorServicio= "",tarifaServicio = "";
-		var consumoServicio = "",fechaLecturaServicio = "",nombreServicio="",coloniaServicio="";		
 		
-		var importeServicio 		 = new Array();
-		var fechaFacturacionServicio = new Array();
-		var desdeFechaServicio		 = new Array();
-		var hastaFechaServicio		 = new Array();
-		var lugarPagoServicio		 = new Array();
-		var fechaPagoServicio		 = new Array();
-		var fechaLimitePagoServicio  = new Array();
-		var kwhServicio				 = new Array(); 
 		
 		
        $.ajax({
@@ -171,34 +180,40 @@
 						 });
 						  
 						  
-						  if( (rpu == rpuServicio) && (cuenta == cuentaServicio) )
+						 if( (rpu == rpuServicio) && (cuenta == cuentaServicio) )
 						 {
-						 $(xml).find('catal3').each(function()
-						 {
-							medidorServicio 	= $(this).find("numed").text();					
-						 });
+								 $(xml).find('catal3').each(function()
+								 {
+									medidorServicio 	= $(this).find("numed").text();					
+								 });
 						 
 						  
-						 $(xml).find('catal4').each(function()
-						 {
-							 $(this).find("facturacion").each(function()
-							{
-								fechaFacturacionServicio.push($(this).find("fecha_ade").text());
-								importeServicio.push($(this).find("total").text().trim());
-								desdeFechaServicio.push($(this).find("fecha_desde").text());
-								hastaFechaServicio.push($(this).find("fecha_hasta").text());
-								lugarPagoServicio.push($(this).find("lugar_4b").text());
-								fechaPagoServicio.push($(this).find("fecha_4b").text().trim());
-								fechaLimitePagoServicio.push($(this).find("fecha_operacion").text());
-								kwhServicio.push($(this).find("kwh").text());
-								
-							 }); // facturacion
+								 $(xml).find('catal4').each(function()
+								 {
+									 $(this).find("facturacion").each(function()
+									{
+										fechaFacturacionServicio.push($(this).find("fecha_ade").text());
+										importeServicio.push($(this).find("total").text().trim());
+										desdeFechaServicio.push($(this).find("fecha_desde").text());
+										hastaFechaServicio.push($(this).find("fecha_hasta").text());
+										lugarPagoServicio.push($(this).find("lugar_4b").text());
+										fechaPagoServicio.push($(this).find("fecha_4b").text().trim());
+										fechaLimitePagoServicio.push($(this).find("fecha_operacion").text());
+										kwhServicio.push($(this).find("kwh").text());
+										
+									 }); // facturacion
 							
 												
 						 });  // catal4
 						 
+						 //
+						 //agregar a baase de datos
+						 
+						 var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
+       					 db.transaction(populateDB, errorCB, successCB);
+						 
 						//alert(medidorServicio);					
-						  
+						   /*
 							 for(var i=0;i<importeServicio.length;i++)
 							 {
 								  // alert(lugarPagoServicio[i]);
@@ -237,7 +252,7 @@
 							htmlMain += '<h2>'+ alias +' - '+ nombreServicio +'</h2>';
 							htmlMain += '<div data-role="collapsible" data-theme="b" data-content-theme="b"  data-mini="true">';
 							htmlMain += '<h2>Datos Generales del Servicio</h2>';
-							htmlMain += '<div id="datosGenerales" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false"  data-mini="true">';
+							htmlMain += '<div id="datosGeneralest" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false"  data-mini="true">';
 							htmlMain += '<p><strong>RPU:</strong>&nbsp; '+rpu+'</p>';
 							htmlMain += '<p><strong>Cuenta:</strong>&nbsp; '+cuentaServicio+'</p>';
 							htmlMain += '<p><strong>Medidor:</strong>&nbsp; '+medidorServicio+'<strong>&nbsp;&nbsp;&nbsp;Tarifa:</strong>&nbsp; '+tarifaServicio+'</p>';
@@ -257,7 +272,7 @@
 							 $("#popupLogin").popup("close");
 							 
 							$("#ContenedorPrincipal").append(htmlMain).collapsibleset().trigger("create"); 
-							$("#validaServicio").button('enable');
+							$("#validaServicio").button('enable');   */
 						 }
 						 else
 						 {
