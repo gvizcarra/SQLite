@@ -15,7 +15,17 @@
     //
     document.addEventListener("deviceready", onDeviceReady, false);
 
-    // Populate the database 
+	 $( document ).bind( 'mobileinit', function(){
+  $.mobile.loader.prototype.options.text = "loading";
+  $.mobile.loader.prototype.options.textVisible = false;
+  $.mobile.loader.prototype.options.theme = "a";
+  $.mobile.loader.prototype.options.html = "";
+}); 
+
+
+
+    
+	// Populate the database 
     //
    function populateDB(tx) 
    {
@@ -43,9 +53,10 @@
     function querySuccess(tx, results) {
         var len = results.rows.length;
         alert("DEMO table: " + len + " rows found.");
-        for (var i=0; i<len; i++){
-            alert("Row = " + i + " ID = " + results.rows.item(i).rpu + " Data =  " + results.rows.item(i).nombreCliente);
-        }
+       // for (var i=0; i<len; i++)
+       //{
+          //  alert("Row = " + i + " ID = " + results.rows.item(i).rpu + " Data =  " + results.rows.item(i).nombreCliente);
+        //}
     }
 
     // Transaction error callback
@@ -64,12 +75,18 @@
     // Cordova is ready
     //
     function onDeviceReady() {
-        //var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
-       // db.transaction(populateDB, errorCB, successCB);
+        var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
+       db.transaction(populateDB, errorCB, successCB);
     }
 	
 	function ValidaServicio()
 	{
+		//$('div#popupLogin input[type=button]').button('disable');
+		$("#validaServicio").button('disable');
+		
+		var rpu = $("#rpu").val();
+		var cuenta = $("#cuenta").val();
+		
 		var mesServicio = [];
 		mesServicio[0] = "";
 		mesServicio[1] = " Enero";
@@ -84,11 +101,9 @@
 		mesServicio[10] = " Octubre";
 		mesServicio[11] = " Noviembre";
 		mesServicio[12] = " Diciembre";
-	
-		var rpu = $("#rpu").val();
-		var cuenta = $("#cuenta").val();
+				
 		var htmlMain = "",htmlMes = "";
-		var direccionServicio = "",rpuServicio = rpu,cuentaServicio = "",medidorServicio= "",tarifaServicio = "";
+		var direccionServicio = "",rpuServicio = "",cuentaServicio = "",medidorServicio= "",tarifaServicio = "";
 		var consumoServicio = "",fechaLecturaServicio = "",nombreServicio="",coloniaServicio="";		
 		
 		var importeServicio 		 = new Array();
@@ -98,14 +113,9 @@
 		var lugarPagoServicio		 = new Array();
 		var fechaPagoServicio		 = new Array();
 		var fechaLimitePagoServicio  = new Array();
-		var kwhServicio				 = new Array();
+		var kwhServicio				 = new Array(); 
 		
 		
-		
-		
-		
-
-
        $.ajax({
                type: "GET",
                url: "http://soporte.da0.cfemex.com/appmovil.php?rpu="+rpu,
@@ -121,18 +131,23 @@
 						direccionServicio 	= $(this).find("direccion").text();
 						coloniaServicio 	= $(this).find("colonia").text();
 						nombreServicio 		= $(this).find("nombre").text();
-						tarifaServicio 		= $(this).find("tarifa").text();				   
+						tarifaServicio 		= $(this).find("tarifa").text();
+						rpuServicio			= $(this).find("rpu").text();
 						
 					 });
 				 
 				 //$("#ContenedorPrincipal").append('<li><h3>' + direccionServicio + '</h3></li>'); 
 				 
-						$(xml).find('catal5').each(function(){
+						$(xml).find('catal5').each(function()
+						{
 							cuentaServicio 	= $(this).find("numcta").text();					
 						 });
 						  
-						 
-						 $(xml).find('catal3').each(function(){
+						  
+						  if( (rpu == rpuServicio) && (cuenta == cuentaServicio) )
+						 {
+						 $(xml).find('catal3').each(function()
+						 {
 							medidorServicio 	= $(this).find("numed").text();					
 						 });
 						 
@@ -157,39 +172,65 @@
 						 
 						//alert(medidorServicio);					
 						  
-						 for(var i=0;i<importeServicio.length;i++)
-						 {
-							  // alert(lugarPagoServicio[i]);
-								
+							 for(var i=0;i<importeServicio.length;i++)
+							 {
+								  // alert(lugarPagoServicio[i]);
+									
+									 
+									htmlMes += '<ul id="gv22" data-role="listview" data-theme="d" data-divider-theme="e" data-mini="true">';
+												
+									htmlMes += '<li id="listMes" data-role="list-divider" id="Mes2">'+ mesServicio[parseInt(fechaFacturacionServicio[i].substr(4,2))] +' - '+fechaFacturacionServicio[i].substr(0,4)+'</li>';
+									htmlMes += '<li>';
+									htmlMes += '<div id="mescontent" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">';
+									htmlMes += '<h4>RPU:&nbsp; '+rpu+'  </h4>';
+									htmlMes += '<h4>Cuenta:&nbsp; '+cuentaServicio+' </h4>';
+									htmlMes += '<p><strong>Fecha Vencimiento:</strong>&nbsp;'+fechaLimitePagoServicio[i]+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;'+parseInt(kwhServicio[i])+' Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>'+medidorServicio+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>'+tarifaServicio+'</p>';
+									htmlMes += '<p><strong>Importe:&nbsp;</strong> $'+importeServicio[i]+' Pesos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;'+lugarPagoServicio[i]+'<strong>Fecha de Pago: </strong> '+fechaPagoServicio[i]+' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>';
+									
+									if(fechaPagoServicio[i]!="")
+									 { htmlMes += '<h4>Importe Pagado:&nbsp; $'+importeServicio[i]+'</h4>'; }
+									 else
+									 { htmlMes += '<h4>Importe Pagado:&nbsp; 00000</h4>'; }
+									 
+									htmlMes += '</div>';
+									htmlMes += '</li>';
+									htmlMes += '</ul>';  
+								  
 								 
-								htmlMes += '<ul id="gv22" data-role="listview" data-theme="d" data-divider-theme="e">';
-											
-								htmlMes += '<li id="listMes" data-role="list-divider" id="Mes2">'+ mesServicio[parseInt(fechaFacturacionServicio[i].substr(4,2))] +' - '+fechaFacturacionServicio[i].substr(0,4)+'</li>';
-								htmlMes += '<li>';
-								htmlMes += '<div id="mescontent" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">';
-								htmlMes += '<h4>RPU:&nbsp; '+rpu+'  </h4>';
-								htmlMes += '<h4>Cuenta:&nbsp; '+cuentaServicio+' </h4>';
-								htmlMes += '<p><strong>Fecha Vencimiento:</strong>&nbsp;'+fechaLimitePagoServicio[i]+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Consumo:</strong>&nbsp;'+parseInt(kwhServicio[i])+' Kwh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Medidor:</strong>'+medidorServicio+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Tarifa:</strong>'+tarifaServicio+'</p>';
-								htmlMes += '<p><strong>Importe:&nbsp;</strong> $'+importeServicio[i]+' Pesos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Lugar de Pago:</strong>&nbsp;'+lugarPagoServicio[i]+'<strong>Fecha de Pago: </strong> '+fechaPagoServicio[i]+' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>';
-								
-								if(fechaPagoServicio[i]!="")
-								 { htmlMes += '<h4>Importe Pagado:&nbsp; $'+importeServicio[i]+'</h4>'; }
-								 else
-								 { htmlMes += '<h4>Importe Pagado:&nbsp; 00000</h4>'; }
-								 
-								htmlMes += '</div>';
-								htmlMes += '</li>';
-								htmlMes += '</ul>';  
-							  
-							 
-							 }
+								 }
 						 
-							htmlMain = '<div data-role="collapsible" id="Servicio"'+rpu+'>';
+							htmlMain = '<div data-role="collapsible" id="Servicio"'+rpu+' data-mini="true">';
+							//htmlMain +='<button class="show-page-loading-msg" data-theme="b" data-textonly="false" data-textvisible="true" data-msgtext="Loading theme b" data-icon="arrow-r" data-iconpos="right">'+nombreServicio+'</button>';
+
 							htmlMain += '<h2>'+ nombreServicio +'</h2>';
+							htmlMain += '<div data-role="collapsible" data-theme="b" data-content-theme="b">';
+							htmlMain += '<h2>Datos Generales del Servicio</h2>';
+							htmlMain += '<div id="mescontent" class="ui-collapsible-content ui-body-b ui-corner-bottom" aria-hidden="false">';
+							//htmlMain += '<ul id="gv22" data-role="listview" data-theme="c" data-divider-theme="c" data-mini="true">';
+							//htmlMain += '<li id="listMes" data-role="list-divider" id="Mes2">';
+							htmlMain += '<h4>Cuenta:&nbsp; '+cuentaServicio+' </h4>';
+							//htmlMain += '</li>';						
+							//htmlMain += '</ul>';
+							htmlMain += '</div>';
+							htmlMain += '<h4>Cuenta:&nbsp;</h4>';
+							htmlMain += '</div>';
+							
 							htmlMain += htmlMes;
 							htmlMain += '</div>';
-				
-							$("#ContenedorPrincipal").append(htmlMain).collapsibleset().trigger("create");   
+							
+							 $("#msgError").text("");
+							 $("#popupLogin").popup("close");
+							 
+							$("#ContenedorPrincipal").append(htmlMain).collapsibleset().trigger("create"); 
+							$("#validaServicio").button('enable');
+						 }
+						 else
+						 {
+							 $("#msgError").html("<font color='red'>Datos Invalidos</font>");
+							 $("#validaServicio").button('enable');
+							 
+							 }
+			   
 					}
 
 		
@@ -209,25 +250,8 @@
 	 
 		<a href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Agregar Servicio</a>
          
-			<div id="ContenedorPrincipal" data-role="collapsible-set" data-theme="b" data-content-theme="d" data-inset="false">
+			<div id="ContenedorPrincipal" data-role="collapsible-set" data-theme="b" data-content-theme="d" data-inset="false" data-mini="true">
 			</div>
-            
-            <a href="#popupInfo" data-rel="popup" data-role="button" data-inline="true">Tooltip</a>
-			        
-        
-		<div data-role="popup" id="popupInfo" class="ui-content" data-theme="e" style="max-width:350px;">
-          <p>Here is a <strong>tiny popup</strong> being used like a tooltip. The text will wrap to multiple lines as needed.</p>
-		</div>
-
-		<div data-role="popup" id="popupMenu" data-theme="a">
-				<ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
-					<li data-role="divider" data-theme="a">Popup API</li>
-					<li><a href="options.html">Options</a></li>
-					<li><a href="methods.html">Methods</a></li>
-					<li><a href="events.html">Events</a></li>
-				</ul>
-		</div>	 
-		
 
 		<div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
 			<form>
@@ -236,8 +260,8 @@
 		          <label for="rpu" class="ui-hidden-accessible">Captura RPU:</label>
 		          <input type="text" name="rpu" id="rpu" value="016990200185" placeholder="RPU" data-theme="a" />
 
-		          <label for="cuenta" class="ui-hidden-accessible">Captura Password:</label>
-		          <input type="text" name="cuenta" id="cuenta" value="016990200185" placeholder="Cuenta" data-theme="a" />
+		          <label for="cuenta" class="ui-hidden-accessible">Captura Cuenta:</label>
+		          <input type="text" name="cuenta" id="cuenta" value="69DA15A025203160" placeholder="Cuenta" data-theme="a" />
 
 		    	  <button type="button" data-theme="b" id="validaServicio" name="validaServicio" onClick="ValidaServicio()">Validar</button>
                   <label id="msgError" class="ui-li-count"></label>
@@ -245,6 +269,20 @@
 			</form>
 		</div>
 		
+        
+        <div data-role="popup" id="popupConsumoAlDia" data-theme="a" class="ui-corner-all">
+			<form>
+				<div style="padding:10px 20px;">
+				  <h3>Calculo de Consumo al Dia</h3>
+		          <label for="lblLecturaAlDia" class="ui-hidden-accessible">Captura Lectura al Dia</label>
+		          <input type="text" name="lecturaAlDia" id="lecturaAlDia" value="" placeholder="lblLecturaAlDia" data-theme="a" />
+		    	  <button type="button" data-theme="b" id="calculaConsumoAldia" name="calculaConsumoAldia" onClick="">Calcular</button>
+                  <input type="hidden" name="rpuConsumoFacturado" id="rpuConsumoFacturado"/>
+                  <label id="msgConsumoAlDia" class="ui-li-count"></label>
+				</div>
+			</form>
+		</div>
+
 		 
 
 	</div><!-- /content -->
