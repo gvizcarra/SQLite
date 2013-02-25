@@ -83,11 +83,17 @@
 
     // Query the success callback
     //
-    function querySuccess(tx, results) {
+    function querySuccess(tx, results)
+	 {
         var len = results.rows.length;
-        alert("DEMO table: " + len + " rows found.");
-        for (var i=0; i<len; i++){
-            alert("Row = " + i + " ID = " + results.rows.item(i).rpu + " Data =  " + results.rows.item(i).nombreCliente);
+        //alert("DEMO table: " + len + " rows found.");
+		
+		
+        for (var i=0; i<len; i++)
+		{
+			
+			
+            //alert("Row = " + i + " ID = " + results.rows.item(i).rpu + " Data =  " + results.rows.item(i).nombreCliente);
         }
     }
 
@@ -134,7 +140,7 @@
 		rpu    = $("#rpu").val();
 		cuenta = $("#cuenta").val();
 		alias  = $("#alias").val();
-		/*// variables reset
+		 // variables reset
 		htmlMain = "",htmlMes = "";
 		direccionServicio = "",rpuServicio = "",cuentaServicio = "",medidorServicio= "",tarifaServicio = "";
 		consumoServicio = "",fechaLecturaServicio = "",nombreServicio="",coloniaServicio="";		
@@ -147,7 +153,7 @@
 		lugarPagoServicio		 = new Array();
 		fechaPagoServicio		 = new Array();
 		fechaLimitePagoServicio  = new Array();
-		kwhServicio				 = new Array();*/
+		kwhServicio				 = new Array(); 
 				
 		
 		
@@ -172,7 +178,7 @@
 						
 					 });
 				 
-				 //$("#ContenedorPrincipal").append('<li><h3>' + direccionServicio + '</h3></li>'); 
+				// $("#ContenedorPrincipal").append('<li><h3>' + direccionServicio + '</h3></li>'); 
 				 
 						$(xml).find('catal5').each(function()
 						{
@@ -209,11 +215,11 @@
 						 //
 						 //agregar a baase de datos
 						 
-						 var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
-       					 db.transaction(populateDB, errorCB, successCB);
+						// var db = window.openDatabase("MisServiciosCfe.db", "1.0", "Mis ServiciosCfe DB", 200000);
+       					 //db.transaction(populateDB, errorCB, successCB);
 						 
 						//alert(medidorServicio);					
-						   /*
+						    
 							 for(var i=0;i<importeServicio.length;i++)
 							 {
 								  // alert(lugarPagoServicio[i]);
@@ -272,7 +278,7 @@
 							 $("#popupLogin").popup("close");
 							 
 							$("#ContenedorPrincipal").append(htmlMain).collapsibleset().trigger("create"); 
-							$("#validaServicio").button('enable');   */
+							$("#validaServicio").button('enable');    
 						 }
 						 else
 						 {
